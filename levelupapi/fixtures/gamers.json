@@ -1,0 +1,18 @@
+[
+    {
+        "model": "levelupapi.gamer",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "bio": "Yasmeen from NSS."
+        }
+    },
+    {
+        "model": "levelupapi.gamer",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "bio": "Steve from NSS."
+        }
+    }
+]
