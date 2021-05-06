@@ -1,0 +1,13 @@
+[
+    {
+        "model": "levelupapi.event",
+        "pk": 1,
+        "fields": {
+            "host": 1,
+            "game": 1,
+            "description": "A board game about buying real estate.",
+            "date": "2021-04-06",
+            "time": "09:05AM"
+        }
+    }
+]
