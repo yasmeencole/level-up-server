@@ -5,7 +5,7 @@ from rest_framework import routers
 from django.contrib import admin
 from levelupapi.views import GameTypeView
 from levelupapi.views.game import GameView
-
+from levelupapi.views import EventView
 
 
 # this parses the urls
@@ -14,6 +14,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 # /gametypes?label=blue
 router.register(r'gametypes', GameTypeView, 'gametype')
 router.register(r'games', GameView, 'game')
+router.register(r'events', EventView, 'event')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
