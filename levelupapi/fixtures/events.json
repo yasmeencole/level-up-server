@@ -5,9 +5,22 @@
         "fields": {
             "host": 1,
             "game": 1,
+            "name": "Monopoly Event",
             "description": "A board game about buying real estate.",
             "date": "2021-04-06",
             "time": "09:05AM"
+        }
+    },
+    {
+        "model": "levelupapi.event",
+        "pk": 2,
+        "fields": {
+            "host": 1,
+            "game": 2,
+            "name": "Settlers of Catan Event",
+            "description": "A expedition and survial game.",
+            "date": "2021-05-12",
+            "time": "06:05PM"
         }
     }
 ]
