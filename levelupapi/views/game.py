@@ -82,13 +82,17 @@ class GameView(ViewSet):
         # creating a new instance of Game, get the game record
         # from the database whose primary key is `pk`
         game = Game.objects.get(pk=pk)
+        
+        # if gamer is not gmae.gamer:
+        #     return Response{({}, status=status.HTTP_403_FORBIDDEN)
+    
         game.title = request.data["title"]
         game.maker = request.data["maker"]
         game.number_of_players = request.data["number_of_players"]
         game.skill_level = request.data["skill_level"]
         game.gamer = gamer
 
-        game_type = GameType.objects.get(pk=request.data["gameTypeId"])
+        game_type = GameType.objects.get(pk=request.data["game_type_id"])
         game.game_type = game_type
 
         try:
@@ -142,4 +146,4 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('id', 'game_type', 'title', 'maker', 'number_of_players', 'skill_level', 'gamer')
-        depth = 2
+        depth = 1
