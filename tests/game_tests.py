@@ -38,6 +38,16 @@ class GameTests(APITestCase):
         game_type = GameType()
         game_type.label = "Board game"
         game_type.save()
+        
+        self.game = Game()
+        self.game.game_type_id = 1
+        self.game.title = "Monopoly"
+        self.game.skill_level = 1
+        self.game.maker = "Milton Bradley"
+        self.game.number_of_players = 4
+        self.game.gamer_id = 1
+        
+        self.game.save()
 
     def test_create_game(self):
         """
@@ -47,7 +57,7 @@ class GameTests(APITestCase):
         url = "/games"
         data = {
             "game_type_id": 1,
-            "skill_level": 5,
+            "skill_level": 1,
             "title": "Clue",
             "maker": "Milton Bradley",
             "number_of_players": 6,
@@ -76,32 +86,11 @@ class GameTests(APITestCase):
         """
         Ensure we can get an existing game.
         """
-
-        # Seed the database with a game
-        game = Game()
-        game.game_type_id = 1
-        game.title = "Monopoly"
-        game.skill_level = 5
-        game.maker = "Milton Bradley"
-        game.number_of_players = 4
-        game.gamer_id = 1
-
-        game.save()
-        
-                # DEFINE NEW PROPERTIES FOR GAME
-        data = {
-            "game_type_id": 1,
-            "skill_level": 2,
-            "name": "Sorry",
-            "maker": "Hasbro",
-            "number_of_players": 4
-        }
-
         # Make sure request is authenticated
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
-
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
+        
         # Initiate request and store response
-        response = self.client.get(f"/games/{game.id}")
+        response = self.client.get(f"/games/{self.game.id}")
 
         # Parse the JSON in the response body
         json_response = json.loads(response.content)
@@ -110,19 +99,19 @@ class GameTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Assert that the values are correct
-        self.assertEqual(json_response["title"], "Monopoly")
-        self.assertEqual(json_response["skill_level"], 5)
-        self.assertEqual(json_response["maker"], "Milton Bradley")
-        self.assertEqual(json_response["number_of_players"], 4)
+        self.assertEqual(json_response["title"], self.game.title)
+        self.assertEqual(json_response["skill_level"], self.game.skill_level)
+        self.assertEqual(json_response["maker"], self.game.maker)
+        self.assertEqual(json_response["number_of_players"], self.game.number_of_players)
 
     def test_change_game(self):
 
         game = Game()
         game.game_type_id = 1
-        game.skill_level = 5
+        game.skill_level = 1
         game.title = "Sorry"
         game.maker = "Milton Bradley"
-        game.number_of_players = "4"
+        game.number_of_players = 4
         game.gamer_id = 1
         game.save()
         
@@ -130,11 +119,12 @@ class GameTests(APITestCase):
         data = {
             "game_type_id": 1,
             "title": "Sorry",
+            "skill_level": 1,
             "maker": "Hasbro",
             "number_of_players": 4
         }
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
         response = self.client.put(f"/games/{game.id}", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
@@ -145,7 +135,7 @@ class GameTests(APITestCase):
 
         # Assert that the properties are correct
         self.assertEqual(json_response["title"], "Sorry")
-        self.assertEqual(json_response["skill_level"], 2)
+        self.assertEqual(json_response["skill_level"], 1)
         self.assertEqual(json_response["maker"], "Hasbro")
         self.assertEqual(json_response["number_of_players"], 4)
 
@@ -162,7 +152,7 @@ class GameTests(APITestCase):
         game.gamer_id = 1
         game.save()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
         response = self.client.delete(f"/games/{game.id}")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
